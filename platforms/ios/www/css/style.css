@@ -1,0 +1,9 @@
+/* Empty. Add your own CSS if you like */
+#redditLogo{
+	height: inherit;
+	width: 50px;
+}
+
+#addSubredditBar{
+	margin: 0;
+}

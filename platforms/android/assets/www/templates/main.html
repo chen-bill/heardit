@@ -1,0 +1,37 @@
+<ion-view view-title="Listen to Reddit">
+  <ion-content>
+    <div class="list" id="addSubredditBar">
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" placeholder="Add subreddit" ng-model="addSubredditInput">
+        </label>
+        <button class="button button-small" ng-click="addSubreddit(addSubredditInput); addSubredditInput = null">
+          Add
+        </button>
+      </div>
+    </div>
+
+    <div id="subredditList">
+    <ion-list show-delete="shouldShowDelete">
+     	<ion-item ng-repeat="sub in subreddits">
+        	<h2 class="itemTitle">{{sub}}</h2>
+
+        	<label class="toggle toggle-calm">
+           		<input type="checkbox" ng-model="subredditsChecked[$index]">
+           		<div class="track">
+             		<div class="handle"></div>
+           		</div>
+         	</label>
+
+        	<ion-delete-button class="ion-minus-circled"
+                ng-click="items.splice($index, 1)">
+        	</ion-delete-button>
+      </ion-item>
+    </ion-list>
+    </div>
+
+    <div class="bar bar-footer bar-balanced" id="mediaButton">
+      <div class="title" ng-click="toggleMedia(); debug()">{{isPlaying ? 'Play' : 'Stop'}}</div>
+    </div>
+  </ion-content>
+</ion-view>
