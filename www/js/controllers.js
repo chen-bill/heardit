@@ -1,6 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', ['$scope', 'settingsFactory', 
+
   function($scope, settingsFactory) {
   	$scope.shouldShowDelete = false;
 
@@ -30,14 +31,14 @@ angular.module('starter.controllers', [])
     
 
     $scope.isPlaying = false;
-    $scope.subreddits = ['Showerthoughts','AMA','Top','TIL'];
+    $scope.subreddits = ['showerthoughts','ama','top','til'];
 
     $scope.subredditsChecked = [true, true, true, true];
 
     $scope.addSubreddit = function(value){
       verifySubreddit(value, function(exists){
         if (exists && $scope.subreddits.indexOf(value) == -1) {
-          $scope.subreddits.push(value);
+          $scope.subreddits.push(value.toLowerCase());
           $scope.subredditsChecked.push(true);
         } else if ($scope.subreddits.indexOf(value) != -1){
           alertPop('Error', 'Subreddit already in list');
