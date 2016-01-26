@@ -1,7 +1,15 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', ['$scope', 'settingsFactory', 
-  function($scope, settingsFactory) {
+.controller('AppCtrl', ['$scope', 'settingsFactory', '$ionicLoading', '$ionicPlatform', '$cordovaFile',
+  function($scope, settingsFactory, $ionicLoading, $ionicPlatform, $cordovaFile ) {
+
+    //files
+    $scope.download = function(){
+      $ionicLoading.show({
+        template: "Loading..."
+      });
+    }
+
   	$scope.shouldShowDelete = false;
 
     $scope.settings = settingsFactory.getSettings();
@@ -12,8 +20,9 @@ angular.module('starter.controllers', [])
     }
 
     $scope.debug = function(){
-      console.log('debug');
-      settingsFactory.test();
+      alert('debug');
+      $scope.settings = settingsFactory.getSettings();
+      alert(JSON.stringify($scope.settings));
     }
 
     $scope.$watch(function(){
@@ -25,15 +34,18 @@ angular.module('starter.controllers', [])
 .controller('MainCtrl', ['$scope','$rootScope', 'settingsFactory' ,'$ionicPopup' , '$timeout', '$http', 
   function($scope, $rootScope, settingsFactory, $ionicPopup, $timeout, $http){
 
-    $scope.isPlaying = false;
-    $scope.subreddits = ['Showerthoughts','AMA','Top','TIL'];
+    var playCount = 0;
+    var playQueue = []; //strings of all subreddits
+    
 
-    $scope.subredditsChecked = [true, true, true, true];
+    $scope.isPlaying = false;
+    $scope.subreddits = settingsFactory.getSubreddits();
+    $scope.subredditsChecked = settingsFactory.getSubredditsChecked();
 
     $scope.addSubreddit = function(value){
       verifySubreddit(value, function(exists){
         if (exists && $scope.subreddits.indexOf(value) == -1) {
-          $scope.subreddits.push(value);
+          $scope.subreddits.push(value.toLowerCase());
           $scope.subredditsChecked.push(true);
         } else if ($scope.subreddits.indexOf(value) != -1){
           alertPop('Error', 'Subreddit already in list');
@@ -52,6 +64,20 @@ angular.module('starter.controllers', [])
     }
 
     // Helper functions
+    function getFeed(){
+      var settings = settingsFactory.getSettings();
+
+
+      var url = 'https://www.reddit.com/r/' + subreddit + '/about.json';
+      $http({
+        method: 'GET',
+        url: url
+      }).then(function successCallback(response) {
+        callback(true);
+      }, function errorCallback(response) {
+        callback(false);
+      });
+    }
 
     function playMedia (feedArray){
       responsiveVoice.speak(feedArray[0], settingsFactory.selectedVoice, {onstart: StartCallback, onend: EndCallback});
@@ -99,7 +125,8 @@ angular.module('starter.controllers', [])
     }
 
     $scope.debug = function(){
-      console.log($scope.subreddits);
-      console.log($scope.subredditsChecked);
+      alert('getting stuff');
+      $scope.subreddit = settingsFactory.getSubreddits();
+      $scope.subredditsChecked = settingsFactory.getSubredditsChecked();
     }
 }])

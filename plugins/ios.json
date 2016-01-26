@@ -69,6 +69,12 @@
         },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.starter"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.ionicframework.redditvoiceionic967533"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.ionicframework.redditvoiceionic967533"
         }
     },
     "dependent_plugins": {}

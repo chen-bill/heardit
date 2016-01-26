@@ -46,6 +46,10 @@
 		0F1E3F7C9872466AAC961755 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B705FDD0EF4C0D9A40D90D /* CDVStatusBar.m */; };
 		7A91374ABE644789B5599A56 /* IonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0407D833EEBA48A98193DB05 /* IonicKeyboard.m */; };
 		86292407022E4EA0B1847A33 /* UIWebViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 0205BB14AC9C40BE80342A4E /* UIWebViewExtension.m */; };
+		4309130E4CED46A481A41D96 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 085BEED81E6F4915AA37B310 /* CDVFile.m */; };
+		2DB5AF093B9A4D8D988C0F2D /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A61EF0E6D247CE86C2DC31 /* CDVLocalFilesystem.m */; };
+		667B1F15BE894199A6672E35 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = F049D301CDA14FBB92F8F409 /* CDVAssetLibraryFilesystem.m */; };
+		D7FFCFFE75FC4FE69CAAA8C0 /* CDVFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2BC20793C428FAB52CF86 /* CDVFileTransfer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +129,14 @@
 		0205BB14AC9C40BE80342A4E /* UIWebViewExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "UIWebViewExtension.m"; path = "ionic-plugin-keyboard/UIWebViewExtension.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		6B69D16FD9B64E8199464A66 /* IonicKeyboard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "IonicKeyboard.h"; path = "ionic-plugin-keyboard/IonicKeyboard.h"; sourceTree = "<group>"; fileEncoding = 4; };
 		B6C47A225A354370BA24AFB6 /* UIWebViewExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UIWebViewExtension.h"; path = "ionic-plugin-keyboard/UIWebViewExtension.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		085BEED81E6F4915AA37B310 /* CDVFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVFile.m"; path = "cordova-plugin-file/CDVFile.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		13A61EF0E6D247CE86C2DC31 /* CDVLocalFilesystem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVLocalFilesystem.m"; path = "cordova-plugin-file/CDVLocalFilesystem.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		F049D301CDA14FBB92F8F409 /* CDVAssetLibraryFilesystem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVAssetLibraryFilesystem.m"; path = "cordova-plugin-file/CDVAssetLibraryFilesystem.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		0F674E124BAA4ACF9280491F /* CDVFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVFile.h"; path = "cordova-plugin-file/CDVFile.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		B6DBFBF371044F8DBE6C31FE /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVLocalFilesystem.h"; path = "cordova-plugin-file/CDVLocalFilesystem.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		4F7BDBE45F8944D49BC444CA /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVAssetLibraryFilesystem.h"; path = "cordova-plugin-file/CDVAssetLibraryFilesystem.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		2EA2BC20793C428FAB52CF86 /* CDVFileTransfer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVFileTransfer.m"; path = "cordova-plugin-file-transfer/CDVFileTransfer.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		4B96CF2C13F246BBA1230979 /* CDVFileTransfer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVFileTransfer.h"; path = "cordova-plugin-file-transfer/CDVFileTransfer.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +249,14 @@
 				0205BB14AC9C40BE80342A4E /* UIWebViewExtension.m */,
 				6B69D16FD9B64E8199464A66 /* IonicKeyboard.h */,
 				B6C47A225A354370BA24AFB6 /* UIWebViewExtension.h */,
+				085BEED81E6F4915AA37B310 /* CDVFile.m */,
+				13A61EF0E6D247CE86C2DC31 /* CDVLocalFilesystem.m */,
+				F049D301CDA14FBB92F8F409 /* CDVAssetLibraryFilesystem.m */,
+				0F674E124BAA4ACF9280491F /* CDVFile.h */,
+				B6DBFBF371044F8DBE6C31FE /* CDVLocalFilesystem.h */,
+				4F7BDBE45F8944D49BC444CA /* CDVAssetLibraryFilesystem.h */,
+				2EA2BC20793C428FAB52CF86 /* CDVFileTransfer.m */,
+				4B96CF2C13F246BBA1230979 /* CDVFileTransfer.h */,
 			);
 			name = Plugins;
 			path = "RedditVoiceIonic/Plugins";
@@ -428,6 +448,10 @@
 				0F1E3F7C9872466AAC961755 /* CDVStatusBar.m in Sources */,
 				7A91374ABE644789B5599A56 /* IonicKeyboard.m in Sources */,
 				86292407022E4EA0B1847A33 /* UIWebViewExtension.m in Sources */,
+				4309130E4CED46A481A41D96 /* CDVFile.m in Sources */,
+				2DB5AF093B9A4D8D988C0F2D /* CDVLocalFilesystem.m in Sources */,
+				667B1F15BE894199A6672E35 /* CDVAssetLibraryFilesystem.m in Sources */,
+				D7FFCFFE75FC4FE69CAAA8C0 /* CDVFileTransfer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

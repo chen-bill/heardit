@@ -1,8 +1,15 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', ['$scope', 'settingsFactory', 
+.controller('AppCtrl', ['$scope', 'settingsFactory', '$ionicLoading', '$ionicPlatform', '$cordovaFile',
+  function($scope, settingsFactory, $ionicLoading, $ionicPlatform, $cordovaFile ) {
 
-  function($scope, settingsFactory) {
+    //files
+    $scope.download = function(){
+      $ionicLoading.show({
+        template: "Loading..."
+      });
+    }
+
   	$scope.shouldShowDelete = false;
 
     $scope.settings = settingsFactory.getSettings();
@@ -13,8 +20,9 @@ angular.module('starter.controllers', [])
     }
 
     $scope.debug = function(){
-      console.log('debug');
-      settingsFactory.test();
+      alert('debug');
+      $scope.settings = settingsFactory.getSettings();
+      alert(JSON.stringify($scope.settings));
     }
 
     $scope.$watch(function(){
@@ -31,9 +39,8 @@ angular.module('starter.controllers', [])
     
 
     $scope.isPlaying = false;
-    $scope.subreddits = ['showerthoughts','ama','top','til'];
-
-    $scope.subredditsChecked = [true, true, true, true];
+    $scope.subreddits = settingsFactory.getSubreddits();
+    $scope.subredditsChecked = settingsFactory.getSubredditsChecked();
 
     $scope.addSubreddit = function(value){
       verifySubreddit(value, function(exists){
@@ -118,7 +125,9 @@ angular.module('starter.controllers', [])
     }
 
     $scope.debug = function(){
-      console.log($scope.subreddits);
-      console.log($scope.subredditsChecked);
+      alert('getting stuff');
+
+      $scope.subreddit = settingsFactory.getSubreddits();
+      $scope.subredditsChecked = settingsFactory.getSubredditsChecked();
     }
 }])

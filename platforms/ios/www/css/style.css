@@ -1,9 +1,27 @@
 /* Empty. Add your own CSS if you like */
 #redditLogo{
-	height: inherit;
+	height: 30px;
 	width: 50px;
+	padding-left: 20px;
 }
 
 #addSubredditBar{
 	margin: 0;
+}
+
+#subredditList{
+	overflow: scroll;
+	position: absolute;  
+	top: 54px;  
+	bottom: 43px;
+	width: 100%;
+}
+
+.itemTitle{
+	float:left;
+}
+
+#mediaButton{
+	position: fixed;
+	bottom: 0px;
 }

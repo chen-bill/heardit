@@ -5657,7 +5657,8 @@ ion-tabs.tabs-color-active-dark .tab-item {
   font-size: 16px; }
   .item h2 {
     margin: 0 0 2px 0;
-    font-size: 16px;
+    padding-top: 5px; 
+    font-size: 20px;
     font-weight: normal; }
   .item h3 {
     margin: 0 0 4px 0;
@@ -5944,7 +5945,7 @@ button.item.item-complex {
 .item-radio .item-content {
   position: relative;
   z-index: 2;
-  padding: 16px 49px 16px 16px;
+  padding: 16px 16px 16px 16px;
   border: none;
   background-color: #fff; }
 
@@ -8012,7 +8013,9 @@ input:checked + .checkbox-icon:after {
   display: inline-block;
   pointer-events: auto;
   margin: -5px;
-  padding: 5px; }
+  padding: 5px; 
+  float: right;
+  }
   .toggle input:checked + .track {
     border-color: #4cd964;
     background-color: #4cd964; }
@@ -8618,13 +8621,13 @@ progress {
         color: #fff; }
   .button.button-positive {
     border-color: transparent;
-    background-color: #387ef5;
+    background-color: #ff5700;
     color: #fff; }
     .button.button-positive:hover {
       color: #fff;
       text-decoration: none; }
     .button.button-positive.active, .button.button-positive.activated {
-      background-color: #0c60ee; }
+      background-color: #ff4500; }
     .button.button-positive.button-clear {
       border-color: transparent;
       background: none;

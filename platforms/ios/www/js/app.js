@@ -32,15 +32,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     controller: 'AppCtrl'
   })
 
-  .state('app.settings', {
-    url: '/settings',
+  .state('app.main', {
+    url: '/main',
     views: {
-      'settings': {
-        templateUrl: 'templates/settings.html',
-        controller: 'SettingsCtrl'
+      'main': {
+        templateUrl: 'templates/main.html',
+        controller: 'MainCtrl'
       }
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/settings');
+  $urlRouterProvider.otherwise('/app/main');
 });

@@ -10,33 +10,58 @@
       </ion-nav-buttons>
 
       <ion-nav-buttons side="left">
-        <button class="button button-icon button-clear ion-minus-outline" menu-toggle="left">
+        <button class="button button-icon button-clear ion-ios-minus-outline" menu-toggle="left" ng-click="toggleShowList()">
         </button>
-        <img id="redditLogo" src="http://placehold.it/150x150"/>
+        <img id="redditLogo" src="../img/redditAlien.png"/>
       </ion-nav-buttons>
 
     </ion-nav-bar>
-    <ion-nav-view name="settings"></ion-nav-view>
+    <ion-nav-view name="main"></ion-nav-view>
   </ion-side-menu-content>
 
   <ion-side-menu side="right">
     <ion-header-bar class="bar-stable">
       <h1 class="title">Settings</h1>
     </ion-header-bar>
+
     <ion-content>
       <div class="list">
-
-  <label class="item item-input item-select">
-    <div class="input-label">
-      Lightsaber
-    </div>
-    <select>
-      <option>Blue</option>
-      <option selected>Green</option>
-      <option>Red</option>
-    </select>
-    </label>
-    </div>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Time
+          </div>
+          <select ng-model="settings.time">
+            <option value="hour">Hour</option>
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+            <option value="year">Year</option>
+            <option value="all">All</option>
+          </select>
+        </label>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Sort by
+          </div>
+          <select ng-model="settings.sort">
+            <option value="hot">Hot</option>
+            <option value="top" >Top</option>
+            <option value="new" >New</option>
+          </select>
+        </label>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Voice
+          </div>
+          <select ng-model="settings.voice">
+            <option ng-repeat="voice in voiceList">{{voice.name}}</option>
+          </select>
+        </label>
+        <label class="item" ng-click="debug()">
+          <h3>Debug</h3>
+          <img ng-src="{{imgFile}}"/>
+        </label>
+      </div>
     </ion-content>
   </ion-side-menu>
 </ion-side-menus>
