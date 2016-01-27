@@ -7,7 +7,9 @@ angular.module('starter.controllers', [])
 
     $ionicPlatform.ready(function(){
         settingsFactory.init(function(res){
-          $scope.settings = settingsFunctionObject.getData('settings');
+          settingsFactory.getData('settings', function(data){
+            $scope.settings = data;
+          });
         });
     });
 
@@ -38,11 +40,11 @@ angular.module('starter.controllers', [])
     $scope.isPlaying = false;
 
     $ionicPlatform.ready(function(){
-      alert('pulling subreddits');
         settingsFactory.init(function(res){
-          alert('got subreddts');
-          $scope.subreddits = settingsFunctionObject.getData('subreddits');
-          $scope.subredditsChecked = settingsFunctionObject.getData('subredditsChecked');
+          settingsFactory.getData(null, function(res){
+            $scope.subreddits = res.subreddits;
+            $scope.subredditsChecked = res.subredditsChecked;
+          });
         });
     });
 

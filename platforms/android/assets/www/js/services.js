@@ -52,15 +52,15 @@ angular.module('starter.services', [])
     	readDataFromFile(callback);
 	}
 
-    settingsFunctionObject.getData = function(key){
+    settingsFunctionObject.getData = function(key, callback){
 		if (key =='settings'){
-			return data.settings;
+			callback(data.settings);
 		} else if (key == 'subreddits'){
-			return data.subreddits;
+			callback(data.subreddits);
 		} else if (key == 'subredditsChecked'){
-			return data.subredditsChecked;
+			callback(data.subredditsChecked);
 		} else {
-			return data;
+			callback(data);
 		}
     }
 
