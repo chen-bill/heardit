@@ -5,7 +5,7 @@
       </ion-nav-back-button>
 
       <ion-nav-buttons side="right">
-        <button class="button button-icon button-clear ion-navicon" menu-toggle="right">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="right" ng-click="saveSettings()">
         </button>
       </ion-nav-buttons>
 
@@ -59,7 +59,6 @@
         </label>
         <label class="item" ng-click="debug()">
           <h3>Debug</h3>
-          <img ng-src="{{imgFile}}"/>
         </label>
       </div>
     </ion-content>

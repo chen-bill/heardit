@@ -22,14 +22,13 @@ angular.module('starter.controllers', [])
 		  $scope.shouldShowDelete = !$scope.shouldShowDelete;
     }
 
-    $scope.debug = function(){
+    $scope.saveSettings = function(){
       settingsFactory.setData('settings', $scope.settings);
     }
 
-    // $scope.$watch(function(){
-    //   settingsFactory.refreshSettings($scope.settings);
-    // });
-
+    $scope.debug = function(){
+      alert(JSON.stringify($scope.settings));
+    }
 }])
 
 .controller('MainCtrl', ['$scope','$rootScope', 'settingsFactory' ,'$ionicPopup', '$ionicPlatform' , '$timeout', '$http', 
@@ -56,6 +55,7 @@ angular.module('starter.controllers', [])
         if (exists && $scope.subreddits.indexOf(value) == -1) {
           $scope.subreddits.push(value.toLowerCase());
           $scope.subredditsChecked.push(true);
+          saveSubreddits();
         } else if ($scope.subreddits.indexOf(value) != -1){
           alertPop('Error', 'Subreddit already in list');
         } else {
@@ -73,6 +73,11 @@ angular.module('starter.controllers', [])
     // }
 
     // Helper functions
+    function saveSubreddits(){
+      settingsFactory.setData('subreddits', $scope.subreddits);
+      settingsFactory.setData('subredditsChecked', $scope.subredditsChecked);
+    }
+
     function getFeed(){
       var settings = settingsFactory.getSettings();
 

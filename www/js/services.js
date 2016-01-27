@@ -22,9 +22,9 @@ angular.module('starter.services', [])
     function writeData(){
     	$cordovaFile.writeFile(cordova.file.dataDirectory, "data.txt", JSON.stringify(data), true)
 	        .then(function (success) {
-	        	alert("successfully wrote in file" +  JSON.stringify(success));
+	        	// alert("successfully wrote in file" +  JSON.stringify(success));
       		}, function (error) {
-      			alert('Error writing to file: ' + JSON.stringify(error));
+      			// alert('Error writing to file: ' + JSON.stringify(error));
       		});
     }
 
@@ -65,16 +65,20 @@ angular.module('starter.services', [])
     }
 
     settingsFunctionObject.setData = function(key, value){
-    	if (key =='settings'){
+    	if (key ==='settings'){
     		data.settings = value;
-		} else if (key == 'subreddits'){
+		} else if (key === 'subreddits'){
 			data.subreddits = value;
-		} else if (key == 'subredditsChecked'){
+		} else if (key === 'subredditsChecked'){
 			data.subredditsChecked  = value;
 		} else {
 			data = value;
 		}
 		writeData();
+    }
+
+    settingsFunctionObject.setDataDebug = function(data){
+    	alert(JSON.stringify(data));
     }
 
 	return settingsFunctionObject;
