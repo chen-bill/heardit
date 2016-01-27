@@ -3,16 +3,17 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', ['$scope', 'settingsFactory', '$ionicLoading', '$ionicPlatform', '$cordovaFile',
   function($scope, settingsFactory, $ionicLoading, $ionicPlatform, $cordovaFile ) {
 
-    //files
-    $scope.download = function(){
-      $ionicLoading.show({
-        template: "Loading..."
-      });
-    }
+    $scope.settings = {};
+
+    $ionicPlatform.ready(function(){
+        settingsFactory.init(function(res){
+          $scope.settings = settingsFunctionObject.getData('settings');
+        });
+    });
 
   	$scope.shouldShowDelete = false;
 
-    $scope.settings = settingsFactory.getSettings();
+    //get voice list from reading api
     $scope.voiceList = responsiveVoice.getVoices();
 
     $scope.toggleShowList = function(){
@@ -20,27 +21,33 @@ angular.module('starter.controllers', [])
     }
 
     $scope.debug = function(){
-      alert('debug');
-      $scope.settings = settingsFactory.getSettings();
-      alert(JSON.stringify($scope.settings));
+      settingsFactory.setData('settings', $scope.settings);
     }
 
-    $scope.$watch(function(){
-      settingsFactory.refreshSettings($scope.settings);
-    });
+    // $scope.$watch(function(){
+    //   settingsFactory.refreshSettings($scope.settings);
+    // });
 
 }])
 
-.controller('MainCtrl', ['$scope','$rootScope', 'settingsFactory' ,'$ionicPopup' , '$timeout', '$http', 
-  function($scope, $rootScope, settingsFactory, $ionicPopup, $timeout, $http){
+.controller('MainCtrl', ['$scope','$rootScope', 'settingsFactory' ,'$ionicPopup', '$ionicPlatform' , '$timeout', '$http', 
+  function($scope, $rootScope, settingsFactory, $ionicPopup, $ionicPlatform, $timeout, $http){
+
+    $scope.subreddits = [];
+    $scope.subredditsChecked = [];
+    $scope.isPlaying = false;
+
+    $ionicPlatform.ready(function(){
+      alert('pulling subreddits');
+        settingsFactory.init(function(res){
+          alert('got subreddts');
+          $scope.subreddits = settingsFunctionObject.getData('subreddits');
+          $scope.subredditsChecked = settingsFunctionObject.getData('subredditsChecked');
+        });
+    });
 
     var playCount = 0;
     var playQueue = []; //strings of all subreddits
-    
-
-    $scope.isPlaying = false;
-    $scope.subreddits = settingsFactory.getSubreddits();
-    $scope.subredditsChecked = settingsFactory.getSubredditsChecked();
 
     $scope.addSubreddit = function(value){
       verifySubreddit(value, function(exists){
@@ -55,13 +62,13 @@ angular.module('starter.controllers', [])
       })
     }
 
-    $scope.toggleMedia = function(){
-      if($scope.isPlaying){
+    // $scope.toggleMedia = function(){
+    //   if($scope.isPlaying){
 
-      } else {
-      }
-      $scope.isPlaying = !$scope.isPlaying;
-    }
+    //   } else {
+    //   }
+    //   $scope.isPlaying = !$scope.isPlaying;
+    // }
 
     // Helper functions
     function getFeed(){
@@ -125,8 +132,6 @@ angular.module('starter.controllers', [])
     }
 
     $scope.debug = function(){
-      alert('getting stuff');
-      $scope.subreddit = settingsFactory.getSubreddits();
-      $scope.subredditsChecked = settingsFactory.getSubredditsChecked();
+      alert(JSON.stringify($scope.subredditsChecked));
     }
 }])

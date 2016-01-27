@@ -3,18 +3,24 @@ angular.module('starter.services', [])
 .factory('settingsFactory', [ '$ionicPlatform', '$cordovaFile', 
 	function($ionicPlatform, $cordovaFile) {
 
+	var defaultData = {
+		subreddits: ['showerthoughts', 'ama', 'til'],
+		subredditsChecked: [true, true, true],
+		settings: {
+			time: 'week',
+			sort: 'hot',
+			voice: 'UK English Female'
+		}
+	}   
+
 	var data = {
 		subreddits: [],
-		subredditsChecked: []
-		// settings: {
-		// 	time: 'month',
-  //     		sort: 'new',
-  //     		voice: 'UK English Female'
-		// }
+		subredditsChecked: [],
+		settings: {}
 	}       
 
     function writeData(){
-    	$cordovaFile.writeFile(cordova.file.dataDirectory, "data.txt", JSON.stringify(data))
+    	$cordovaFile.writeFile(cordova.file.dataDirectory, "data.txt", JSON.stringify(data), true)
 	        .then(function (success) {
 	        	alert("successfully wrote in file" +  JSON.stringify(success));
       		}, function (error) {
@@ -22,69 +28,54 @@ angular.module('starter.services', [])
       		});
     }
 
-    function readData(){
-    	console.log(data);
+    function readDataFromFile(callback){
+    	$cordovaFile.readAsText(cordova.file.dataDirectory, "data.txt")
+	      	.then(function (success) {	//when file is found
+	      		alert('read Data: ' + success);
+	      		data = angular.fromJson(success);
+	      		callback(success);
+	      	}, function (error) {	//when no file is found
+	      		alert('Error loading data. Creating a new file');
+	      		$cordovaFile.writeFile(cordova.file.dataDirectory, "data.txt", JSON.stringify(defaultData), true)
+		        	.then(function (success) {
+		        		alert('success writing new file');
+		        		callback(success);
+	      			}, function (error) {
+	      				alert('error writing to file');
+	      			});
+		    });
     }
-
-    $ionicPlatform.ready(function(){
-        $cordovaFile.readAsText(cordova.file.dataDirectory, "data.txt")
-      		.then(function (success) {	//when file is found
-      			data = angular.fromJson(success);
-      		}, function (error) {	//when no file is found
-      			alert('Error loading data. Creating a new file');
-      			$cordovaFile.writeFile(cordova.file.dataDirectory, "data.txt", JSON.stringify(data), true)
-	        		.then(function (success) {
-	        			// whatever, i dont need this
-      				}, function (error) {
-      					// alert('Error creating and writing to file: ' + JSON.stringify(error));
-      				});
-	       	});
-    });
 
     settingsFunctionObject = {};
 
-    settingsFunctionObject.getData = function(){
-    	return data;
-    }
-
-    settingsFunctionObject.setData = function(newData){
-    	data = newData;
-    }
-
-    settingsFunctionObject.getSettings = function(){
-    	return data.settings;
-    }
-
-	settingsFunctionObject.setSetting = function(key, value){
-		data.settings[key] = value;
+    settingsFunctionObject.init = function(callback){
+    	readDataFromFile(callback);
 	}
 
-	settingsFunctionObject.getSubreddits = function(){
-    	return data.subreddits;
-    }
-
-	settingsFunctionObject.setSubreddits = function(array){
-		data.subreddits = array;
-	}
-
-	settingsFunctionObject.getSubredditsChecked = function(){
-    	return data.subredditsChecked;
-    }
-
-	settingsFunctionObject.setSubredditsChecked = function(array){
-		data.subredditsChecked = array;
-	}
-
-	settingsFunctionObject.refreshSettings = function(object){
-		var allKeys = Object.keys(object)
-		for(key in allKeys){
-			data.settings[allKeys[key]] = object[allKeys[key]];
+    settingsFunctionObject.getData = function(key){
+		if (key =='settings'){
+			return data.settings;
+		} else if (key == 'subreddits'){
+			return data.subreddits;
+		} else if (key == 'subredditsChecked'){
+			return data.subredditsChecked;
+		} else {
+			return data;
 		}
-	}
+    }
 
-	settingsFunctionObject.readData = function(){
-		readData();
-	}
+    settingsFunctionObject.setData = function(key, value){
+    	if (key =='settings'){
+    		data.settings = value;
+		} else if (key == 'subreddits'){
+			data.subreddits = value;
+		} else if (key == 'subredditsChecked'){
+			data.subredditsChecked  = value;
+		} else {
+			data = value;
+		}
+		writeData();
+    }
 
 	return settingsFunctionObject;
 }])
