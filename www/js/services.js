@@ -47,6 +47,14 @@ angular.module('starter.services', [])
     }
 
     settingsFunctionObject = {};
+    settingsFunctionObject.resetData = function(){
+    	$cordovaFile.writeFile(cordova.file.dataDirectory, "data.txt", JSON.stringify(defaultData), true)
+	        .then(function (success) {
+	        	alert('Set data back to default');
+      		}, function (error) {
+      			alert('Error setting back data to default');
+      		});
+    }
 
     settingsFunctionObject.init = function(callback){
     	readDataFromFile(callback);

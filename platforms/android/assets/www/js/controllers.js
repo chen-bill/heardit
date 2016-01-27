@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.debug = function(){
-      alert(JSON.stringify($scope.settings));
+      settingsFactory.resetData();
     }
 }])
 
@@ -52,11 +52,11 @@ angular.module('starter.controllers', [])
 
     $scope.addSubreddit = function(value){
       verifySubreddit(value, function(exists){
-        if (exists && $scope.subreddits.indexOf(value) == -1) {
+        if (exists && $scope.subreddits.indexOf(value.toLowerCase()) == -1) {
           $scope.subreddits.push(value.toLowerCase());
           $scope.subredditsChecked.push(true);
           $scope.saveSubreddits();
-        } else if ($scope.subreddits.indexOf(value) != -1){
+        } else if ($scope.subreddits.indexOf(value.toLowerCase()) != -1){
           alertPop('Error', 'Subreddit already in list');
         } else {
           alertPop('Error', 'Subreddit does not exist');
