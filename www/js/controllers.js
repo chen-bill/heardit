@@ -55,13 +55,19 @@ angular.module('starter.controllers', [])
         if (exists && $scope.subreddits.indexOf(value) == -1) {
           $scope.subreddits.push(value.toLowerCase());
           $scope.subredditsChecked.push(true);
-          saveSubreddits();
+          $scope.saveSubreddits();
         } else if ($scope.subreddits.indexOf(value) != -1){
           alertPop('Error', 'Subreddit already in list');
         } else {
           alertPop('Error', 'Subreddit does not exist');
         }
       })
+    }
+
+    $scope.removeSubreddit = function(index){
+      $scope.subreddits.splice(index, 1);
+      $scope.subredditsChecked.splice(index, 1);
+      $scope.saveSubreddits();
     }
 
     // $scope.toggleMedia = function(){
@@ -73,7 +79,7 @@ angular.module('starter.controllers', [])
     // }
 
     // Helper functions
-    function saveSubreddits(){
+    $scope.saveSubreddits = function(){
       settingsFactory.setData('subreddits', $scope.subreddits);
       settingsFactory.setData('subredditsChecked', $scope.subredditsChecked);
     }
