@@ -4,6 +4,8 @@ angular.module('starter.controllers', [])
   function($scope, settingsFactory, $ionicLoading, $ionicPlatform, $cordovaFile ) {
 
     $scope.settings = {};
+    $scope.shouldShowDelete = false;
+    $scope.voiceList = responsiveVoice.getVoices();   //getting voice list from api
 
     $ionicPlatform.ready(function(){
         settingsFactory.init(function(res){
@@ -13,11 +15,7 @@ angular.module('starter.controllers', [])
         });
     });
 
-  	$scope.shouldShowDelete = false;
-
-    //get voice list from reading api
-    $scope.voiceList = responsiveVoice.getVoices();
-
+    
     $scope.toggleShowList = function(){
 		  $scope.shouldShowDelete = !$scope.shouldShowDelete;
     }
@@ -27,12 +25,20 @@ angular.module('starter.controllers', [])
     }
 
     $scope.debug = function(){
-      settingsFactory.resetData();
+      alert(JSON.stringify($scope.settings));
+    }
+
+    $scope.restoreDefault = function(){
+      settingsFactory.resetData(function(res){
+        $scope.settings = data;
+      });
     }
 }])
 
-.controller('MainCtrl', ['$scope','$rootScope', 'settingsFactory' ,'$ionicPopup', '$ionicPlatform' , '$timeout', '$http', 
-  function($scope, $rootScope, settingsFactory, $ionicPopup, $ionicPlatform, $timeout, $http){
+.controller('MainCtrl', ['$scope','$rootScope', 'settingsFactory' ,'$ionicPopup', '$ionicPlatform' , '$timeout', '$http', 'subredditsFactory', 
+  function($scope, $rootScope, settingsFactory, $ionicPopup, $ionicPlatform, $timeout, $http, subredditsFactory){
+
+    var settings = {};
 
     $scope.subreddits = [];
     $scope.subredditsChecked = [];
@@ -41,14 +47,12 @@ angular.module('starter.controllers', [])
     $ionicPlatform.ready(function(){
         settingsFactory.init(function(res){
           settingsFactory.getData(null, function(res){
+            settings = res.settings;
             $scope.subreddits = res.subreddits;
             $scope.subredditsChecked = res.subredditsChecked;
           });
         });
     });
-
-    var playCount = 0;
-    var playQueue = []; //strings of all subreddits
 
     $scope.addSubreddit = function(value){
       verifySubreddit(value, function(exists){
@@ -70,59 +74,19 @@ angular.module('starter.controllers', [])
       $scope.saveSubreddits();
     }
 
-    // $scope.toggleMedia = function(){
-    //   if($scope.isPlaying){
-
-    //   } else {
-    //   }
-    //   $scope.isPlaying = !$scope.isPlaying;
-    // }
+    $scope.toggleMedia = function(){
+      if($scope.isPlaying){
+        stopPlayback();
+      } else {
+        initiatePlayback();
+      }
+      $scope.isPlaying = !$scope.isPlaying;
+    }
 
     // Helper functions
     $scope.saveSubreddits = function(){
       settingsFactory.setData('subreddits', $scope.subreddits);
       settingsFactory.setData('subredditsChecked', $scope.subredditsChecked);
-    }
-
-    function getFeed(){
-      var settings = settingsFactory.getSettings();
-
-
-      var url = 'https://www.reddit.com/r/' + subreddit + '/about.json';
-      $http({
-        method: 'GET',
-        url: url
-      }).then(function successCallback(response) {
-        callback(true);
-      }, function errorCallback(response) {
-        callback(false);
-      });
-    }
-
-    function playMedia (feedArray){
-      responsiveVoice.speak(feedArray[0], settingsFactory.selectedVoice, {onstart: StartCallback, onend: EndCallback});
-      feedArray.shift();
-    }
-
-    function StartCallback (){
-      console.log("media starting");
-    }
-
-    function EndCallback (){
-      playMedia (feedArray);
-      console.log("media ended");
-    }
-
-    function stopMedia (){
-      responsiveVoice.cancel();
-    }
-
-    function pauseMedia(){
-      responsiveVoice.pause();
-    }
-
-    function resumeMedia(){
-      responsiveVoice.resume();
     }
 
     function verifySubreddit(subreddit, callback){
@@ -137,6 +101,7 @@ angular.module('starter.controllers', [])
       });
     }
 
+
     function alertPop(title, description){
       var alertPopup = $ionicPopup.alert({
         title: title,
@@ -144,7 +109,37 @@ angular.module('starter.controllers', [])
       });
     }
 
-    $scope.debug = function(){
-      alert(JSON.stringify($scope.subredditsChecked));
+
+    // ---------------------------- Playing Sounds and stuff -----------------------------
+
+    function initiatePlayback(){
+      playMedia();
     }
+
+    function playMedia (){
+      settingsFactory.getData(null, function(res){
+        settings = res.settings;
+        var voiceParams = { rate: Number(settings.rate), pitch: Number(settings.pitch)}; //order matters!
+        responsiveVoice.speak("hello world, my name is bill chen and I'm the best", settings.voice, voiceParams);
+      });
+    };
+
+    function stopPlayback(){
+        responsiveVoice.cancel();
+    }
+
+    function getFeed(){
+      var url = 'https://www.reddit.com/r/' + subreddit + '/about.json';
+      $http({
+        method: 'GET',
+        url: url
+      }).then(function successCallback(response) {
+        callback(true);
+      }, function errorCallback(response) {
+        callback(false);
+      });
+    };
+
+
+
 }])

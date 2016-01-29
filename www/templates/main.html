@@ -31,7 +31,8 @@
     </div>
 
     <div class="bar bar-footer bar-balanced" id="mediaButton">
-      <div class="title" ng-click="toggleMedia(); debug()">{{!isPlaying ? 'Play' : 'Stop'}}</div>
+      <div class="title" ng-click="toggleMedia();"><span ng-class="{'ion ion-ios-play':'!isPlaying', 'ion ion-ios-pause':isPlaying}"></span>{{!isPlaying ? 'Play' : 'Pause'}}</div>
+      <span>asdf<span>
     </div>
   </ion-content>
 </ion-view>
