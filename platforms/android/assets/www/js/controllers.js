@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', ['$scope', 'settingsFactory', '$ionicLoading', '$ionicPlatform', '$cordovaFile',
-  function($scope, settingsFactory, $ionicLoading, $ionicPlatform, $cordovaFile ) {
+  function($scope, settingsFactory, $ionicLoading, $ionicPlatform, $cordovaFile) {
 
     $scope.settings = {};
     $scope.shouldShowDelete = false;
@@ -15,7 +15,6 @@ angular.module('starter.controllers', [])
         });
     });
 
-    
     $scope.toggleShowList = function(){
 		  $scope.shouldShowDelete = !$scope.shouldShowDelete;
     }
@@ -30,7 +29,8 @@ angular.module('starter.controllers', [])
 
     $scope.restoreDefault = function(){
       settingsFactory.resetData(function(res){
-        $scope.settings = data;
+        alert('Restart the app to save changes');
+        $scope.settings = res.settings;
       });
     }
 }])
@@ -76,19 +76,33 @@ angular.module('starter.controllers', [])
     $scope.toggleMedia = function(){
       if($scope.isPlaying){
         responsiveVoice.cancel();
+        $scope.isPlaying = !$scope.isPlaying;
       } else {
-        $ionicLoading.show({
-          template: "fetching from reddit..."
-        })
-        initiatePlayback('thread', null);
+        if(verifyOneSelected()){
+          $ionicLoading.show({
+            template: "fetching from reddit..."
+          })
+          initiatePlayback('thread', null);
+          $scope.isPlaying = !$scope.isPlaying;
+        } else {
+          alertPop('Error', 'At least one subreddit must be selected');
+        }
       }
-      $scope.isPlaying = !$scope.isPlaying;
     }
 
     // Helper functions
     $scope.saveSubreddits = function(){
       settingsFactory.setData('subreddits', $scope.subreddits);
       settingsFactory.setData('subredditsChecked', $scope.subredditsChecked);
+    }
+
+    function verifyOneSelected(){
+      for(var x = 0; x < $scope.subredditsChecked.length; x++){
+        if($scope.subredditsChecked[x]){
+          return true;
+        }
+      }
+      return false;
     }
 
     function verifySubreddit(subreddit, callback){
@@ -103,14 +117,12 @@ angular.module('starter.controllers', [])
       });
     }
 
-
     function alertPop(title, description){
       var alertPopup = $ionicPopup.alert({
         title: title,
         template: description
       });
     }
-
 
     // ---------------------------- Playing Sounds and stuff -----------------------------
 
@@ -208,6 +220,26 @@ angular.module('starter.controllers', [])
         callback();
     }
 
+    function voiceAnnotate(command, callback){
+      voiceParams = {
+        rate: settings.rate,
+        pitch: settings.pitch,
+        onstart: annotateStart,
+        onend: annotateEnd
+      };
+
+      function annotateStart(){
+      }
+
+      function annotateEnd(){
+        callback();
+      }
+
+      if(command == 'nextThread'){
+        responsiveVoice.speak('Next thread', settings.voice, voiceParams);
+      }
+    }
+
     //type can be comments or thread
     function playMedia(type){
       if(type === 'comments'){
@@ -238,7 +270,13 @@ angular.module('starter.controllers', [])
         if(thread.length > 0){
           playMedia('thread');
         } else {
-          threadTimeout = setTimeout(initiatePlayback('thread', 'after'), settings.secBetween * 1000);
+          if(settings.annotations == 'on'){
+            voiceAnnotate('nextThread', function(){
+              initiatePlayback('thread', 'after');  
+            });
+          } else {
+            initiatePlayback('thread', 'after');
+          }
         }
       }
     }

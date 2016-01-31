@@ -12,7 +12,7 @@
       <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-ios-minus-outline" menu-toggle="left" ng-click="toggleShowList()">
         </button>
-        <img id="redditLogo" src="../img/redditalien.png"/>
+        <!-- <img id="redditLogo" src="../img/redditalien.png"/> -->
       </ion-nav-buttons>
 
     </ion-nav-bar>
@@ -37,7 +37,7 @@
           </select>
         </label>
 
-        <label class="item">
+<!--         <label class="item">
           <div class="input-label">
             Min comment score: {{settings.minUpvotes}}
           </div>
@@ -57,7 +57,7 @@
               <input type="range" min="0" max="10" value="{{settings.secBetween}}" ng-model="settings.secBetween">
               <i class="icon ion-ios-clock"></i>
             </div>
-        </label>
+        </label> -->
 
         <label class="item item-input item-select">
           <div class="input-label">
@@ -97,6 +97,16 @@
           </select>
         </label>
 
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Annotations: {{settings.annotions}}
+          </div>
+          <select ng-model="settings.annotations">
+            <option value="on">On</option>
+            <option value="off" >Off</option>
+          </select>
+        </label>
+
         <label class="item">
           <div class="input-label">
             Rate: {{settings.rate}}
@@ -126,10 +136,6 @@
         <label class="item" ng-click="restoreDefault()">
           <h3>Restore defaults</h3>
           <small>(including subreddits)</small>
-        </label>
-
-        <label class="item" ng-click="debug()">
-          <h3>Debug</h3>
         </label>
       </div>
     </ion-content>

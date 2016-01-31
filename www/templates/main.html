@@ -17,7 +17,7 @@
         	<h2 class="itemTitle">{{sub}}</h2>
 
         	<label class="toggle toggle-calm">
-           		<input type="checkbox" ng-model="subredditsChecked[$index]" ng-click="saveSubreddits()">
+           		<input type="checkbox" ng-model="subredditsChecked[$index]" ng-click="saveSubreddits();">
            		<div class="track">
              		<div class="handle"></div>
            		</div>
@@ -31,8 +31,7 @@
     </div>
 
     <div class="bar bar-footer bar-balanced" id="mediaButton">
-      <div class="title" ng-click="toggleMedia();"><span ng-class="{'ion ion-ios-play':'!isPlaying', 'ion ion-ios-pause':isPlaying}"></span>{{!isPlaying ? 'Play' : 'Pause'}}</div>
-      <span>asdf<span>
+      <div class="title" ng-click="toggleMedia();"><span id="playButton" ng-class="{'ion ion-ios-play':'!isPlaying', 'ion ion-ios-pause':'isPlaying'}"></span>{{!isPlaying ? 'Play' : 'Pause'}}</div>
     </div>
   </ion-content>
 </ion-view>

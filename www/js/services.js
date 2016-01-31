@@ -3,8 +3,8 @@ angular.module('starter.services', [])
 	function($ionicPlatform, $cordovaFile) {
 
 	var defaultData = {
-		subreddits: ['showerthoughts', 'iama', 'til', 'dinosaurs'],
-		subredditsChecked: [true, true, true],
+		subreddits: ['showerthoughts', 'iama', 'todayilearned', 'jokes', 'news', 'lifeprotips'],
+		subredditsChecked: [true, true, true, true, true, true],
 		settings: {
 			selfText: 'on',
 			minUpvotes: '1000',
@@ -12,6 +12,7 @@ angular.module('starter.services', [])
 			time: 'week',
 			sort: 'hot',
 			voice: 'UK English Female',
+			annotations: 'on',
 			pitch: '1',
 			rate: '1'
 		}
@@ -55,7 +56,7 @@ angular.module('starter.services', [])
     	$cordovaFile.writeFile(cordova.file.dataDirectory, "data.txt", JSON.stringify(defaultData), true)
 	        .then(function (success) {
 	        	alert('Set data back to default');
-	        	callback(true);
+	        	callback(data);
       		}, function (error) {
       			alert('Error setting back data to default');
       		});

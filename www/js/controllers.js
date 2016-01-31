@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', ['$scope', 'settingsFactory', '$ionicLoading', '$ionicPlatform', '$cordovaFile',
-  function($scope, settingsFactory, $ionicLoading, $ionicPlatform, $cordovaFile ) {
+  function($scope, settingsFactory, $ionicLoading, $ionicPlatform, $cordovaFile) {
 
     $scope.settings = {};
     $scope.shouldShowDelete = false;
@@ -29,7 +29,8 @@ angular.module('starter.controllers', [])
 
     $scope.restoreDefault = function(){
       settingsFactory.resetData(function(res){
-        $scope.settings = data;
+        alert('Restart the app to save changes');
+        $scope.settings = res.settings;
       });
     }
 }])
@@ -75,19 +76,33 @@ angular.module('starter.controllers', [])
     $scope.toggleMedia = function(){
       if($scope.isPlaying){
         responsiveVoice.cancel();
+        $scope.isPlaying = !$scope.isPlaying;
       } else {
-        $ionicLoading.show({
-          template: "fetching from reddit..."
-        })
-        initiatePlayback('thread', null);
+        if(verifyOneSelected()){
+          $ionicLoading.show({
+            template: "fetching from reddit..."
+          })
+          initiatePlayback('thread', null);
+          $scope.isPlaying = !$scope.isPlaying;
+        } else {
+          alertPop('Error', 'At least one subreddit must be selected');
+        }
       }
-      $scope.isPlaying = !$scope.isPlaying;
     }
 
     // Helper functions
     $scope.saveSubreddits = function(){
       settingsFactory.setData('subreddits', $scope.subreddits);
       settingsFactory.setData('subredditsChecked', $scope.subredditsChecked);
+    }
+
+    function verifyOneSelected(){
+      for(var x = 0; x < $scope.subredditsChecked.length; x++){
+        if($scope.subredditsChecked[x]){
+          return true;
+        }
+      }
+      return false;
     }
 
     function verifySubreddit(subreddit, callback){
@@ -137,7 +152,7 @@ angular.module('starter.controllers', [])
       }).then(function successCallback(jsonData) {
         var unformattedString = jsonData.data.data.children[0].data.title;
         if(settings.selfText == 'on'){
-          unformattedString = unformattedString + ' ' + jsonData.data.data.children[0].data.selftext;
+          unformattedString = unformattedString + '. ' + jsonData.data.data.children[0].data.selftext;
         }
         redditBefore = jsonData.data.data.before;
         redditAfter = jsonData.data.data.after;
@@ -183,9 +198,10 @@ angular.module('starter.controllers', [])
         //replacing certain characters with their respective terms
         var temp1 = unformattedString.replace(/&/g,'and');
         var temp2 = temp1.replace(/\//g,' slash ');
+        var temp3 = temp2.replace(/%/g,' percent ');
 
         //white list for accepted characters
-        var formattedString = temp2.replace(/[^a-z A-Z 0-9 ?!.,'"]+/g,'');
+        var formattedString = temp3.replace(/[^a-z A-Z 0-9 ?!.,'"]+/g,'');
 
         //the word is broken down to an array of sentences
         var newStringArray = [];
@@ -203,6 +219,26 @@ angular.module('starter.controllers', [])
 
         thread = newStringArray;
         callback();
+    }
+
+    function voiceAnnotate(command, callback){
+      voiceParams = {
+        rate: settings.rate,
+        pitch: settings.pitch,
+        onstart: annotateStart,
+        onend: annotateEnd
+      };
+
+      function annotateStart(){
+      }
+
+      function annotateEnd(){
+        callback();
+      }
+
+      if(command == 'nextThread'){
+        responsiveVoice.speak('Next thread', settings.voice, voiceParams);
+      }
     }
 
     //type can be comments or thread
@@ -235,7 +271,13 @@ angular.module('starter.controllers', [])
         if(thread.length > 0){
           playMedia('thread');
         } else {
-          threadTimeout = setTimeout(initiatePlayback('thread', 'after'), settings.secBetween * 1000);
+          if(settings.annotations == 'on'){
+            voiceAnnotate('nextThread', function(){
+              initiatePlayback('thread', 'after');  
+            });
+          } else {
+            initiatePlayback('thread', 'after');
+          }
         }
       }
     }

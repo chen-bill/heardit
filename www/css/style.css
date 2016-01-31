@@ -25,3 +25,8 @@
 	position: fixed;
 	bottom: 0px;
 }
+
+#playButton{
+	font-size: 20px;
+	padding-right: 3px;	
+}
