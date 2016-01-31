@@ -3,10 +3,10 @@ angular.module('starter.services', [])
 	function($ionicPlatform, $cordovaFile) {
 
 	var defaultData = {
-		subreddits: ['showerthoughts', 'ama', 'til', 'dinosaurs'],
+		subreddits: ['showerthoughts', 'iama', 'til', 'dinosaurs'],
 		subredditsChecked: [true, true, true],
 		settings: {
-			cycle: '5',
+			selfText: 'on',
 			minUpvotes: '1000',
 			secBetween: '10',
 			time: 'week',
@@ -35,7 +35,6 @@ angular.module('starter.services', [])
     function readDataFromFile(callback){
     	$cordovaFile.readAsText(cordova.file.dataDirectory, "data.txt")
 	      	.then(function (success) {	//when file is found
-	      		alert('read Data: ' + success);
 	      		data = angular.fromJson(success);
 	      		callback(success);
 	      	}, function (error) {	//when no file is found
@@ -96,74 +95,4 @@ angular.module('starter.services', [])
     };
 
 	return settingsFunctionObject;
-}])
-
-
-
-// ---------------------------------Making subreddits less shitty to read ---------------------
-
-
-
-.factory('subredditsFactory', ['settingsFactory', function(settingsFactory){
-
-	var settings = {};
-	var unformattedPostsArray = [];
-	var formattedPostArray = [];
-
-	//get settings
-	function getSettings(callback){
-		settingsFactory.getData(null, function(data){
-			callback(data);
-		})
-	};
-
-	function getRedditPosts(userSettings){
-		//gets # number of posts from users that match the filter criterias
-		//appends all posts into an array
-	}
-
-	function formatPost(){
-		for(post in unformattedPostsArray){
-			// for(var i = 0; i < unformattedPostsArray[post].length; i++){
-				//remove "
-				//split every period
-				//remove forbidden characters
-				// if unformattedPostsArray[post].charAt(i);
-		};
-	};
-	//get json
-	//format each title string into an array of arrays
-    //start querying 1 by 1
-    //remove subreddits from array when finished playing
-
-
-    function StartCallback (){
-      console.log("media starting");
-    };
-
-    function EndCallback (){
-      playMedia (feedArray);
-      console.log("media ended");
-    };
-
-    function stopMedia (){
-    };
-
-    function pauseMedia(){
-    };
-
-    function resumeMedia(){
-    };
-
-	subredditPlaybackObject = {};
-
-	subredditPlaybackObject.play = function(){
-		alert('servie play');
-		getSettings(function(data){
-			settings = data.settings;
-			playMedia();
-		});
-	}
-
-	return subredditPlaybackObject;
-}])
+}]);
