@@ -61,6 +61,20 @@
 
         <label class="item item-input item-select">
           <div class="input-label">
+            Sort thread by
+          </div>
+          <select ng-model="settings.sort">
+            <option value="default">Hot</option>
+            <option value="rising">Rising</option>
+            <option value="controversial">Controversial</option>
+            <option value="top" >Top</option>
+            <option value="new" >New</option>
+            <option value="ads" >Promoted</option>
+          </select>
+        </label>
+
+        <label class="item item-input item-select" ng-if="settings.sort=='top'">
+          <div class="input-label">
             Time
           </div>
           <select ng-model="settings.time">
@@ -75,12 +89,13 @@
 
         <label class="item item-input item-select">
           <div class="input-label">
-            Sort by
+            Sort comments by
           </div>
-          <select ng-model="settings.sort">
-            <option value="hot">Hot</option>
-            <option value="top" >Top</option>
-            <option value="new" >New</option>
+          <select ng-model="settings.commentsSort">
+            <option value="confidence">Best</option>
+            <option value="top">Top</option>
+            <option value="controversial" >Controversial</option>
+            <option value="old" >old</option>
           </select>
         </label>
 

@@ -1,4 +1,4 @@
-<ion-view view-title="Listen to Reddit">
+<ion-view view-title="Hearddit">
   <ion-content>
     <div class="list" id="addSubredditBar">
       <div class="item item-input-inset">
@@ -17,21 +17,26 @@
         	<h2 class="itemTitle">{{sub}}</h2>
 
         	<label class="toggle toggle-calm">
-           		<input type="checkbox" ng-model="subredditsChecked[$index]">
+           		<input type="checkbox" ng-model="subredditsChecked[$index]" ng-click="saveSubreddits();">
            		<div class="track">
              		<div class="handle"></div>
            		</div>
          	</label>
 
         	<ion-delete-button class="ion-minus-circled"
-                ng-click="items.splice($index, 1)">
+                ng-click="removeSubreddit($index)">
         	</ion-delete-button>
       </ion-item>
     </ion-list>
     </div>
 
     <div class="bar bar-footer bar-balanced" id="mediaButton">
-      <div class="title" ng-click="toggleMedia(); debug()">{{!isPlaying ? 'Play' : 'Stop'}}</div>
+      <div class="title" ng-click="toggleMedia();">
+        <span id="backButton" class="ion ion-skip-backward"></span>
+        <span id="playButton" ng-class="{'ion ion-ios-play':'!isPlaying', 'ion ion-ios-pause':'isPlaying'}"></span>{{!isPlaying ? 'Play' : 'Stop'}}
+        <span id="pauseButton" class="ion ion-pause"></span>
+        <span id="forwardButton" class="ion ion-skip-forward"></span>
+      </div>
     </div>
   </ion-content>
 </ion-view>

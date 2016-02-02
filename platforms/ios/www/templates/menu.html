@@ -5,14 +5,14 @@
       </ion-nav-back-button>
 
       <ion-nav-buttons side="right">
-        <button class="button button-icon button-clear ion-navicon" menu-toggle="right">
+        <button class="button button-icon button-clear ion-settings" menu-toggle="right" ng-click="saveSettings()">
         </button>
       </ion-nav-buttons>
 
       <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-ios-minus-outline" menu-toggle="left" ng-click="toggleShowList()">
         </button>
-        <img id="redditLogo" src="../img/redditAlien.png"/>
+        <!-- <img id="redditLogo" src="../img/redditalien.png"/> -->
       </ion-nav-buttons>
 
     </ion-nav-bar>
@@ -20,13 +20,58 @@
   </ion-side-menu-content>
 
   <ion-side-menu side="right">
-    <ion-header-bar class="bar-stable">
-      <h1 class="title">Settings</h1>
-    </ion-header-bar>
-
     <ion-content>
       <div class="list">
+
+        <div class="item item-divider">
+          Reddit Settings
+        </div>
+
         <label class="item item-input item-select">
+          <div class="input-label">
+            Self text
+          </div>
+          <select ng-model="settings.selfText">
+            <option value="on">On</option>
+            <option value="off" >Off</option>
+          </select>
+        </label>
+
+<!--         <label class="item">
+          <div class="input-label">
+            Min comment score: {{settings.minUpvotes}}
+          </div>
+          <div class="range range-positive">
+              <i class="icon ion-arrow-down-a"></i>
+              <input type="range" min="0" max="4000" step="100" value="{{settings.minUpvotes}}" ng-model="settings.minUpvotes">
+              <i class="icon ion-arrow-up-a"></i>
+            </div>
+        </label>
+
+        <label class="item">
+          <div class="input-label">
+            Wait {{settings.secBetween}} seconds between posts
+          </div>
+          <div class="range range-positive">
+              <i class="icon ion-ios-clock-outline"></i>
+              <input type="range" min="0" max="10" value="{{settings.secBetween}}" ng-model="settings.secBetween">
+              <i class="icon ion-ios-clock"></i>
+            </div>
+        </label> -->
+
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Sort by
+          </div>
+          <select ng-model="settings.sort">
+            <option value="default">Default</option>
+            <option value="hot">Hot</option>
+            <option value="top" >Top</option>
+            <option value="new" >New</option>
+          </select>
+        </label>
+
+        <label class="item item-input item-select" ng-if="settings.sort=='top'">
           <div class="input-label">
             Time
           </div>
@@ -39,16 +84,11 @@
             <option value="all">All</option>
           </select>
         </label>
-        <label class="item item-input item-select">
-          <div class="input-label">
-            Sort by
-          </div>
-          <select ng-model="settings.sort">
-            <option value="hot">Hot</option>
-            <option value="top" >Top</option>
-            <option value="new" >New</option>
-          </select>
-        </label>
+
+        <div class="item item-divider">
+            Voice Settings
+        </div>
+
         <label class="item item-input item-select">
           <div class="input-label">
             Voice
@@ -57,9 +97,46 @@
             <option ng-repeat="voice in voiceList">{{voice.name}}</option>
           </select>
         </label>
-        <label class="item" ng-click="debug()">
-          <h3>Debug</h3>
-          <img ng-src="{{imgFile}}"/>
+
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Annotations: {{settings.annotions}}
+          </div>
+          <select ng-model="settings.annotations">
+            <option value="on">On</option>
+            <option value="off" >Off</option>
+          </select>
+        </label>
+
+        <label class="item">
+          <div class="input-label">
+            Rate: {{settings.rate}}
+          </div>
+          <div class="range range-positive">
+              <i class="icon ion-arrow-down-a"></i>
+              <input type="range" min="0.1" max="1.5" step="0.1" value="{{settings.rate}}" ng-model="settings.rate">
+              <i class="icon ion-arrow-up-a"></i>
+            </div>
+        </label>
+
+        <label class="item">
+          <div class="input-label">
+            Pitch: {{settings.pitch}}
+          </div>
+          <div class="range range-positive">
+              <i class="icon ion-arrow-down-a"></i>
+              <input type="range" min="0.1" max="2" step="0.1" value="{{settings.pitch}}" ng-model="settings.pitch">
+              <i class="icon ion-arrow-up-a"></i>
+            </div>
+        </label>
+
+        <div class="item item-divider">
+            Extras:
+        </div>
+
+        <label class="item" ng-click="restoreDefault()">
+          <h3>Restore defaults</h3>
+          <small>(including subreddits)</small>
         </label>
       </div>
     </ion-content>

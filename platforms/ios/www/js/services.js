@@ -1,42 +1,99 @@
 angular.module('starter.services', [])
+.factory('settingsFactory', [ '$ionicPlatform', '$cordovaFile', 
+	function($ionicPlatform, $cordovaFile) {
 
-.factory('settingsFactory', function() {
+	var defaultData = {
+		subreddits: ['showerthoughts', 'iama', 'todayilearned', 'jokes', 'news', 'lifeprotips'],
+		subredditsChecked: [true, true, true, true, true, true],
+		settings: {
+			selfText: 'on',
+			minUpvotes: '1000',
+			secBetween: '10',
+			time: 'week',
+			sort: 'hot',
+			voice: 'UK English Female',
+			annotations: 'on',
+			pitch: '1',
+			rate: '1'
+		}
+	};   
 
-	function getFileSystem(){
-		alert(fileSystem.name);
-		alert(fileSystem.root.name)
-	}
+	var data = {
+		subreddits: [],
+		subredditsChecked: [],
+		settings: {}
+	};       
 
-	function generalFail(err){
-		alert("Failed in file system: " + err);
-	}
+    function writeData(){
+    	$cordovaFile.writeFile(cordova.file.dataDirectory, "data.txt", JSON.stringify(data), true)
+	        .then(function (success) {
+	        	// alert("successfully wrote in file" +  JSON.stringify(success));
+      		}, function (error) {
+      			// alert('Error writing to file: ' + JSON.stringify(error));
+      		});
+    };
 
-
-	var settings = {
-      time: 'week',
-      sort: 'hot',
-      voice: 'UK English Female'
-    }
+    function readDataFromFile(callback){
+    	$cordovaFile.readAsText(cordova.file.dataDirectory, "data.txt")
+	      	.then(function (success) {	//when file is found
+	      		data = angular.fromJson(success);
+	      		callback(success);
+	      	}, function (error) {	//when no file is found
+	      		alert('Error loading data. Creating a new file');
+	      		$cordovaFile.writeFile(cordova.file.dataDirectory, "data.txt", JSON.stringify(defaultData), true)
+		        	.then(function (success) {
+		        		alert('success writing new file');
+		        		callback(success);
+	      			}, function (error) {
+	      				alert('error writing to file');
+	      			});
+		    });
+    };
 
     settingsFunctionObject = {};
 
-    settingsFunctionObject.getSettings = function(){
-    	return settings;
-    }
+    settingsFunctionObject.resetData = function(callback) {
+    	$cordovaFile.writeFile(cordova.file.dataDirectory, "data.txt", JSON.stringify(defaultData), true)
+	        .then(function (success) {
+	        	alert('Set data back to default');
+	        	callback(data);
+      		}, function (error) {
+      			alert('Error setting back data to default');
+      		});
+    };
 
-	settingsFunctionObject.getSetting = function(key, callback){
-		callback(settings);
-	}
+    settingsFunctionObject.init = function(callback){
+    	readDataFromFile(callback);
+	};
 
-	settingsFunctionObject.setSetting = function(key, value){
-		settings[key] = value;
-	}
-
-	settingsFunctionObject.refreshSettings = function(object){
-		var allKeys = Object.keys(object)
-		for(key in allKeys){
-			settings[allKeys[key]] = object[allKeys[key]];
+    settingsFunctionObject.getData = function(key, callback){
+		if (key =='settings'){
+			callback(data.settings);
+		} else if (key == 'subreddits'){
+			callback(data.subreddits);
+		} else if (key == 'subredditsChecked'){
+			callback(data.subredditsChecked);
+		} else {
+			callback(data);
 		}
-	}
+    };
+
+    settingsFunctionObject.setData = function(key, value){
+    	if (key ==='settings'){
+    		data.settings = value;
+		} else if (key === 'subreddits'){
+			data.subreddits = value;
+		} else if (key === 'subredditsChecked'){
+			data.subredditsChecked  = value;
+		} else {
+			data = value;
+		}
+		writeData();
+    };
+
+    settingsFunctionObject.setDataDebug = function(data){
+    	alert(JSON.stringify(data));
+    };
+
 	return settingsFunctionObject;
-})
+}]);

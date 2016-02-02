@@ -9,11 +9,12 @@ angular.module('starter.services', [])
 			selfText: 'on',
 			minUpvotes: '1000',
 			secBetween: '10',
-			time: 'week',
-			sort: 'hot',
+			time: 'all',
+			sort: 'default',
+			commentsSort: 'confidence',
 			voice: 'UK English Female',
 			annotations: 'on',
-			pitch: '1',
+			pitch: '0.8',
 			rate: '1'
 		}
 	};   

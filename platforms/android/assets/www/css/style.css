@@ -27,6 +27,12 @@
 }
 
 #playButton{
-	font-size: 20px;
 	padding-right: 3px;	
+}
+
+.controlIcon{
+	font-size: 30px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 6px;
 }

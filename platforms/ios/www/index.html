@@ -16,8 +16,8 @@
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
-    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="cordova.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
 
     <!-- Addons -->
     <script src="js/addons/responsiveVoice.js"></script>
@@ -28,7 +28,7 @@
     <script src="js/controllers.js"></script>
   </head>
 
-  <body ng-app="starter">
+  <body ng-app="starter" class="platform-ios platform-cordova platform-webview">
     <ion-nav-view></ion-nav-view>
   </body>
 </html>
