@@ -99,6 +99,27 @@
           </select>
         </label>
 
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Always go to comments
+          </div>
+          <select ng-model="settings.alwaysComments">
+            <option value="on">On</option>
+            <option value="off" >Off</option>
+          </select>
+        </label>
+
+        <label class="item" ng-if="settings.alwaysComments == 'on'">
+          <div class="input-label">
+            Read {{settings.maxComments}} comments
+          </div>
+          <div class="range range-positive">
+              <i class="icon ion-ios-clock-outline"></i>
+              <input type="range" min="1" max="30" value="{{settings.maxComments}}" ng-model="settings.maxComments">
+              <i class="icon ion-ios-clock"></i>
+            </div>
+        </label>
+
         <div class="item item-divider">
             Voice Settings
         </div>

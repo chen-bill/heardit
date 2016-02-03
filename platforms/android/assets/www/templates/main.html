@@ -37,7 +37,7 @@
         <span id="stopButton" class="ion ion-stop controlIcon" ng-show="isPlaying" ng-click="toggleMedia();"></span>
         <span id="pauseButton" class="ion controlIcon" ng-class="isPaused ? 'ion-play' : 'ion-pause'" ng-click="togglePause()" ng-show="isPlaying"></span>
         <span id="forwardButton" class="ion ion-skip-forward controlIcon" ng-show="isPlaying" ng-click="forward()"></span>
-        <span id="commentsButton" class="ion ion-android-chat controlIcon" ng-show="isPlaying" ng-click="toggleLevel()"></span>
+        <span id="commentsButton" class="ion controlIcon" ng-class="level=='comments' ? 'ion-android-list' : 'ion-android-chat'" ng-show="isPlaying" ng-click="toggleLevel()"></span>
       </div>
     </div>
   </ion-content>

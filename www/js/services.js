@@ -9,6 +9,8 @@ angular.module('starter.services', [])
 			selfText: 'on',
 			minUpvotes: '1000',
 			secBetween: '10',
+			alwaysComments: 'on',
+			maxComments: '5',
 			time: 'all',
 			sort: 'default',
 			commentsSort: 'confidence',
